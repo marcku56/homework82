@@ -5,6 +5,8 @@ import { config } from './config';
 import artistsRouter from './routes/artists';
 import albumsRouter from './routes/albums';
 import tracksRouter from './routes/tracks';
+import usersRouter from './routes/users';
+import trackHistoryRouter from './routes/trackHistory';
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.use(express.static(config.publicPath));
 app.use('/artists', artistsRouter);
 app.use('/albums', albumsRouter);
 app.use('/tracks', tracksRouter);
+app.use('/users', usersRouter);
+app.use('/track_history', trackHistoryRouter);
 
 app.use((_req: Request, res: Response) => {
     res.status(404).send({ error: 'Not Found' });
