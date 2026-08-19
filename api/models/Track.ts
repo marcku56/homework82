@@ -14,6 +14,10 @@ const TrackSchema = new Schema({
         type: String,
         required: [true],
     },
+    trackNumber: {
+        type: Number,
+        required: [true],
+    },
 });
 
 export const Track = model('Track', TrackSchema);

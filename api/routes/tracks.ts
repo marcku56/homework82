@@ -11,7 +11,7 @@ tracksRouter.get('/', async (req, res, next) => {
 
         const filter = album ? { album } : {};
 
-        const tracks = await Track.find(filter);
+        const tracks = await Track.find(filter).sort({ trackNumber: 1 });
         res.send(tracks);
     } catch (error) {
         next(error);
@@ -24,6 +24,7 @@ tracksRouter.post('/', async (req, res, next) => {
             name: req.body.name,
             album: req.body.album,
             duration: req.body.duration,
+            trackNumber: req.body.trackNumber,
         });
 
         await track.save();
