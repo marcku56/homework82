@@ -6,9 +6,17 @@ const usersRouter = Router();
 
 usersRouter.post('/', async (req, res, next) => {
     try {
+        const username = req.body.username ? req.body.username.trim() : '';
+        const password = req.body.password ? req.body.password.trim() : '';
+
+        if (!username || !password) {
+            res.status(400).send({ error: 'Username and password cannot be empty or contain only spaces' });
+            return;
+        }
+
         const user = new User({
-            username: req.body.username,
-            password: req.body.password,
+            username,
+            password,
             token: crypto.randomUUID(),
         });
 
@@ -17,11 +25,13 @@ usersRouter.post('/', async (req, res, next) => {
         res.status(201).send(user);
     } catch (error: any) {
         if (error.name === 'ValidationError') {
-            return res.status(400).send({ error: error.message });
+            res.status(400).send({ error: error.message });
+            return;
         }
 
         if (error.code === 11000) {
-            return res.status(400).send({ error: 'Username already exists' });
+            res.status(400).send({ error: 'Username already exists' });
+            return;
         }
 
         next(error);
@@ -30,12 +40,19 @@ usersRouter.post('/', async (req, res, next) => {
 
 usersRouter.post('/sessions', async (req, res, next) => {
     try {
-        const user = await User.findOne({ username: req.body.username });
+        const username = req.body.username ? req.body.username.trim() : '';
+        const password = req.body.password ? req.body.password.trim() : '';
 
-        if (!user || !(await user.checkPassword(req.body.password))) {
-            return res
-                .status(400)
-                .send({ error: 'Username or password incorrect' });
+        if (!username || !password) {
+            res.status(400).send({ error: 'Username and password are required' });
+            return;
+        }
+
+        const user = await User.findOne({ username });
+
+        if (!user || !(await user.checkPassword(password))) {
+            res.status(400).send({ error: 'Username or password incorrect' });
+            return;
         }
 
         user.generateToken();
