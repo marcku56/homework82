@@ -6,8 +6,8 @@ const usersRouter = Router();
 
 usersRouter.post('/', async (req, res, next) => {
     try {
-        const username = req.body.username ? req.body.username.trim() : '';
-        const password = req.body.password ? req.body.password.trim() : '';
+        const username = typeof req.body.username === 'string' ? req.body.username.trim() : '';
+        const password = typeof req.body.password === 'string' ? req.body.password.trim() : '';
 
         if (!username || !password) {
             res.status(400).send({ error: 'Username and password cannot be empty or contain only spaces' });
@@ -21,7 +21,6 @@ usersRouter.post('/', async (req, res, next) => {
         });
 
         await user.save();
-
         res.status(201).send(user);
     } catch (error: any) {
         if (error.name === 'ValidationError') {
@@ -40,8 +39,8 @@ usersRouter.post('/', async (req, res, next) => {
 
 usersRouter.post('/sessions', async (req, res, next) => {
     try {
-        const username = req.body.username ? req.body.username.trim() : '';
-        const password = req.body.password ? req.body.password.trim() : '';
+        const username = typeof req.body.username === 'string' ? req.body.username.trim() : '';
+        const password = typeof req.body.password === 'string' ? req.body.password.trim() : '';
 
         if (!username || !password) {
             res.status(400).send({ error: 'Username and password are required' });

@@ -3,16 +3,17 @@ import { Schema, model } from 'mongoose';
 const AlbumSchema = new Schema({
     name: {
         type: String,
-        required: [true],
+        required: true,
+        trim: true,
     },
     artist: {
         type: Schema.Types.ObjectId,
         ref: 'Artist',
-        required: [true],
+        required: true,
     },
     releaseYear: {
         type: Number,
-        required: [true],
+        required: true,
     },
     cover: {
         type: String,

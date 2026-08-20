@@ -3,7 +3,8 @@ import { Schema, model } from 'mongoose';
 const ArtistSchema = new Schema({
     name: {
         type: String,
-        required: [true, 'Name is required'],
+        required: true,
+        trim: true,
     },
     photo: {
         type: String,
