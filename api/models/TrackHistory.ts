@@ -4,12 +4,17 @@ const TrackHistorySchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
     },
     track: {
         type: Schema.Types.ObjectId,
         ref: 'Track',
-        required: true
+        required: true,
+    },
+    artist: {
+        type: Schema.Types.ObjectId,
+        ref: 'Artist',
+        required: true,
     },
     datetime: {
         type: Date,

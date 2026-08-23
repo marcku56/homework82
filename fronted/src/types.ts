@@ -20,3 +20,23 @@ export interface Track {
     duration: string;
     trackNumber: number;
 }
+
+export interface User {
+    _id: string;
+    username: string;
+    token: string;
+}
+
+export interface TrackHistoryItem {
+    _id: string;
+    user: string;
+    track: {
+        _id: string;
+        name: string;
+    };
+    artist: {
+        _id: string;
+        name: string;
+    };
+    datetime: string;
+}
