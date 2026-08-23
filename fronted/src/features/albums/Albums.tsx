@@ -36,7 +36,7 @@ const Albums = () => {
         <Box>
             {currentArtist && (
                 <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
-                    Исполнитель: {currentArtist.name}
+                    Artist: {currentArtist.name}
                 </Typography>
             )}
             <Grid container spacing={3}>
@@ -58,7 +58,7 @@ const Albums = () => {
                                 <CardContent>
                                     <Typography variant="h6">{album.name}</Typography>
                                     <Typography variant="body2" color="text.secondary">
-                                        Год выпуска: {album.releaseYear}
+                                        Release year: {album.releaseYear}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>

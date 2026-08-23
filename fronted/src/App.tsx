@@ -1,5 +1,5 @@
-import {Container} from '@mui/material';
-import {Route, Routes} from 'react-router-dom';
+import { Container } from '@mui/material';
+import { Route, Routes } from 'react-router-dom';
 import AppToolbar from './component/UI/AppToolBar/AppToolBar';
 import Artists from './features/artists/Artists';
 import Albums from './features/albums/Albums';
@@ -12,7 +12,6 @@ const App = () => {
         <>
             <AppToolbar />
             <Container maxWidth="xl">
-
                 <Routes>
                     <Route path="/" element={<Artists />} />
                     <Route path="/artists/:id" element={<Albums />} />

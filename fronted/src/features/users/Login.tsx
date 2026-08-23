@@ -40,7 +40,7 @@ const Login = () => {
                     component="h1"
                     variant="h5"
                 >
-                    Вход в систему
+                    Log in to system
                 </Typography>
                 {loginError && (
                     <Alert severity="error" sx={{
@@ -58,7 +58,7 @@ const Login = () => {
                         margin="normal"
                         required
                         fullWidth
-                        label="Имя пользователя"
+                        label="username"
                         name="username"
                         value={state.username}
                         onChange={inputChangeHandler}
@@ -68,7 +68,7 @@ const Login = () => {
                         required
                         fullWidth
                         name="password"
-                        label="Пароль"
+                        label="password"
                         type="password"
                         value={state.password}
                         onChange={inputChangeHandler}
@@ -77,14 +77,14 @@ const Login = () => {
                         mt: 3,
                         mb: 2
                     }} disabled={loginLoading}>
-                        {loginLoading ? <CircularProgress size={24} /> : 'Войти'}
+                        {loginLoading ? <CircularProgress size={24} /> : 'Sign in'}
                     </Button>
                     <Box>
                         <Link to="/register" style={{
                             textDecoration: 'none',
                             color: '#1976d2'
                         }}>
-                            Нет аккаунта? Зарегистрироваться
+                            Don't Have account? Sign up
                         </Link>
                     </Box>
                 </Box>

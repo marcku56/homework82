@@ -46,11 +46,11 @@ const Tracks = () => {
                     }}>
                     {artistName && (
                         <Typography variant="h4" gutterBottom>
-                            Исполнитель: {artistName}
+                            Artist: {artistName}
                         </Typography>
                     )}
                     <Typography variant="h5" color="text.secondary">
-                        Альбом: {currentAlbum.name}
+                        Album: {currentAlbum.name}
                     </Typography>
                 </Box>
             )}

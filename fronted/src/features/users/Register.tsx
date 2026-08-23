@@ -40,7 +40,7 @@ const Register = () => {
                     component="h1"
                     variant="h5"
                 >
-                    Регистрация
+                    Sign up
                 </Typography>
                 {registerError && (
                     <Alert severity="error" sx={{
@@ -58,7 +58,7 @@ const Register = () => {
                         margin="normal"
                         required
                         fullWidth
-                        label="Имя пользователя"
+                        label="username"
                         name="username"
                         value={state.username}
                         onChange={inputChangeHandler}
@@ -68,7 +68,7 @@ const Register = () => {
                         required
                         fullWidth
                         name="password"
-                        label="Пароль"
+                        label="password"
                         type="password"
                         value={state.password}
                         onChange={inputChangeHandler}
@@ -77,14 +77,14 @@ const Register = () => {
                         mt: 3,
                         mb: 2
                     }} disabled={registerLoading}>
-                        {registerLoading ? <CircularProgress size={24} /> : 'Зарегистрироваться'}
+                        {registerLoading ? <CircularProgress size={24} /> : 'Sign up'}
                     </Button>
                     <Box>
                         <Link to="/login" style={{
                             textDecoration: 'none',
                             color: '#1976d2'
                         }}>
-                            Уже есть аккаунт? Войти
+                            Already have account? Sign in
                         </Link>
                     </Box>
                 </Box>
