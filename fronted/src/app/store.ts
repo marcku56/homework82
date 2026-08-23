@@ -3,6 +3,7 @@ import { artistsReducer } from '../features/artists/artistsSlice';
 import { albumsReducer } from '../features/albums/albumsSlice';
 import { tracksReducer } from '../features/tracks/tracksSlice';
 import {usersReducer} from "../features/users/usersSlice.ts";
+import {trackHistoryReducer} from "../features/trackHistory/trackHistorySlice.ts";
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         albums: albumsReducer,
         tracks: tracksReducer,
         users: usersReducer,
+        trackHistory: trackHistoryReducer
     },
 });
 
