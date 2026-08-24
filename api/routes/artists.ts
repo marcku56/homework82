@@ -13,6 +13,23 @@ artistsRouter.get('/', async (_req, res, next) => {
     }
 });
 
+artistsRouter.get('/:id', async (req, res, next) => {
+    try {
+        const artist = await Artist.findById(req.params.id);
+        if (!artist) {
+            res.status(404).send({ error: 'Artist not found' });
+            return;
+        }
+        res.send(artist);
+    } catch (error) {
+        if (error instanceof Error && error.name === 'CastError') {
+            res.status(400).send({ error: 'Invalid artist ID' });
+            return;
+        }
+        next(error);
+    }
+});
+
 artistsRouter.post('/', upload.single('photo'), async (req, res, next) => {
     try {
         const artist = new Artist({
