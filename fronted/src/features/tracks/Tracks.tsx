@@ -25,7 +25,7 @@ const Tracks = () => {
 
     const playTrackHandler = (trackId: string) => {
         if (!user) {
-            navigate('/register');
+            navigate('/login');
             return;
         }
         dispatch(postTrackHistory(trackId));

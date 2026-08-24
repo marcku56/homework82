@@ -22,7 +22,7 @@ const TrackHistory = () => {
 
     useEffect(() => {
         if (!user) {
-            navigate('/register');
+            navigate('/login');
             return;
         }
         dispatch(fetchTrackHistory());
