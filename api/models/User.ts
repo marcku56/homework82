@@ -5,9 +5,11 @@ import crypto from 'crypto';
 const SALT_WORK_FACTOR = 10;
 
 export interface IUser {
+    _id: string;
     username: string;
     password: string;
     token: string;
+    role: 'user' | 'admin';
     checkPassword(password: string): Promise<boolean>;
     generateToken(): void;
 }
@@ -26,6 +28,12 @@ const userSchema = new Schema<IUser>({
     token: {
         type: String,
         required: true,
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ['user', 'admin'],
+        default: 'user',
     },
 });
 

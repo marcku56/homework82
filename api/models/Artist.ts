@@ -14,6 +14,11 @@ const ArtistSchema = new Schema({
         type: String,
         default: null,
     },
+    isPublished: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
 });
 
 export const Artist = model('Artist', ArtistSchema);

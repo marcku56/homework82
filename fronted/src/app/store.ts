@@ -4,13 +4,13 @@ import { albumsReducer } from '../features/albums/albumsSlice';
 import { tracksReducer } from '../features/tracks/tracksSlice';
 import {usersReducer} from "../features/users/usersSlice.ts";
 import {trackHistoryReducer} from "../features/trackHistory/trackHistorySlice.ts";
-import storage from "redux-persist/lib/storage"
+import storage from "redux-persist/es/storage"
 import {persistReducer, persistStore} from "redux-persist"
 import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from "redux-persist/es/constants";
 
 const usersPersistConfig = {
     key: 'music:users',
-    storage: storage.default,
+    storage: storage,
     whitelist: ['user'],
 };
 

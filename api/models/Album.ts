@@ -19,6 +19,11 @@ const AlbumSchema = new Schema({
         type: String,
         default: null,
     },
+    isPublished: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
 });
 
 export const Album = model('Album', AlbumSchema);
