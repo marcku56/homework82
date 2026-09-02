@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import crypto from 'crypto';
 import { User } from '../models/User';
+import { auth } from '../auth';
+import { RequestWithUser } from '../types';
 
 const usersRouter = Router();
 
@@ -10,7 +12,7 @@ usersRouter.post('/', async (req, res, next) => {
         const password = typeof req.body.password === 'string' ? req.body.password.trim() : '';
 
         if (!username || !password) {
-            res.status(400).send({ error: 'Username and password cannot be empty or contain only spaces' });
+            res.status(400).send({ error: 'Username and password cannot be empty' });
             return;
         }
 
@@ -18,6 +20,7 @@ usersRouter.post('/', async (req, res, next) => {
             username,
             password,
             token: crypto.randomUUID(),
+            role: 'user',
         });
 
         await user.save();
@@ -58,6 +61,22 @@ usersRouter.post('/sessions', async (req, res, next) => {
         await user.save();
 
         res.send({ message: 'Username and password correct', user });
+    } catch (error) {
+        next(error);
+    }
+});
+
+usersRouter.delete('/sessions', auth, async (req: RequestWithUser, res, next) => {
+    try {
+        if (!req.user) {
+            res.status(401).send({ error: 'Unauthorized' });
+            return;
+        }
+
+        req.user.generateToken();
+        await req.user.save();
+
+        res.send({ message: 'Success logout' });
     } catch (error) {
         next(error);
     }

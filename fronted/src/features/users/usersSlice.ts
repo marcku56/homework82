@@ -8,6 +8,7 @@ interface UsersState {
     registerError: string | null;
     loginLoading: boolean;
     loginError: string | null;
+    logoutLoading: boolean;
 }
 
 const initialState: UsersState = {
@@ -16,6 +17,7 @@ const initialState: UsersState = {
     registerError: null,
     loginLoading: false,
     loginError: null,
+    logoutLoading: false,
 };
 
 export const register = createAsyncThunk(
@@ -38,6 +40,19 @@ export const login = createAsyncThunk(
             return response.data.user;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || 'Login failed');
+        }
+    }
+);
+
+export const logout = createAsyncThunk(
+    'users/logout',
+    async (_, { dispatch, rejectWithValue }) => {
+        try {
+            await axiosApi.delete('/users/sessions');
+            dispatch(unsetUser());
+        } catch (error: any) {
+            dispatch(unsetUser());
+            return rejectWithValue(error.response?.data?.error || 'Logout failed');
         }
     }
 );
@@ -79,6 +94,15 @@ export const usersSlice = createSlice({
             .addCase(login.rejected, (state, { payload }) => {
                 state.loginLoading = false;
                 state.loginError = payload as string;
+            })
+            .addCase(logout.pending, (state) => {
+                state.logoutLoading = true;
+            })
+            .addCase(logout.fulfilled, (state) => {
+                state.logoutLoading = false;
+            })
+            .addCase(logout.rejected, (state) => {
+                state.logoutLoading = false;
             });
     },
 });
