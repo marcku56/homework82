@@ -1,3 +1,20 @@
+export interface User {
+    _id: string;
+    username: string;
+    token: string;
+    role: 'user' | 'admin';
+    googleId?: string | null;
+    displayName: string;
+    avatar?: string | null;
+}
+
+export interface RegisterMutation {
+    username: string;
+    password: string;
+    displayName: string;
+    avatar: File | null;
+}
+
 export interface Artist {
     _id: string;
     name: string;
@@ -22,13 +39,6 @@ export interface Track {
     duration: string;
     trackNumber: number;
     isPublished: boolean;
-}
-
-export interface User {
-    _id: string;
-    username: string;
-    token: string;
-    role: 'user' | 'admin';
 }
 
 export interface TrackHistoryItem {
