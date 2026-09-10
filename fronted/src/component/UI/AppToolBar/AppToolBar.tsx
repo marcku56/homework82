@@ -1,7 +1,8 @@
-import { AppBar, Toolbar, Typography, Container, Box, Button, CircularProgress } from '@mui/material';
+import { AppBar, Toolbar, Typography, Container, Box, Button, CircularProgress, Avatar } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { logout } from '../../../features/users/usersSlice';
+import { api } from '../../../constant';
 
 const AppToolbar = () => {
     const { user, logoutLoading } = useAppSelector((state) => state.users);
@@ -12,6 +13,11 @@ const AppToolbar = () => {
         await dispatch(logout());
         navigate('/login');
     };
+
+    let avatarUrl = '';
+    if (user?.avatar) {
+        avatarUrl = user.avatar.startsWith('http') ? user.avatar : `${api}/${user.avatar}`;
+    }
 
     return (
         <AppBar position="sticky" sx={{ mb: 4 }}>
@@ -41,9 +47,12 @@ const AppToolbar = () => {
                                 <Button component={Link} to="/track_history" color="inherit">
                                     Track History
                                 </Button>
-                                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                                    Hi {user.username} ({user.role})!
-                                </Typography>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <Avatar src={avatarUrl} alt={user.displayName} />
+                                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                                        Hi {user.displayName} ({user.role})!
+                                    </Typography>
+                                </Box>
                                 <Button color="inherit" onClick={handleLogout} disabled={logoutLoading}>
                                     {logoutLoading ? <CircularProgress size={20} color="inherit" /> : 'Exit'}
                                 </Button>

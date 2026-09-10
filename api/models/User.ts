@@ -47,6 +47,9 @@ const userSchema = new Schema<IUser>({
     displayName: {
         type: String,
         required: true,
+        default: function (this: IUser) {
+            return this.username;
+        },
     },
     avatar: {
         type: String,

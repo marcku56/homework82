@@ -11,22 +11,17 @@ usersRouter.post('/', upload.single('avatar'), async (req, res, next) => {
     try {
         const username = typeof req.body.username === 'string' ? req.body.username.trim() : '';
         const password = typeof req.body.password === 'string' ? req.body.password.trim() : '';
-        const displayName = typeof req.body.displayName === 'string' ? req.body.displayName.trim() : '';
+        const displayName = typeof req.body.displayName === 'string' ? req.body.displayName.trim() : username;
 
         if (!username || !password) {
             res.status(400).send({ error: 'Username and password cannot be empty' });
             return;
         }
 
-        if (!displayName) {
-            res.status(400).send({ error: 'Display Name is required' });
-            return;
-        }
-
         const user = new User({
             username,
             password,
-            displayName,
+            displayName: displayName || username,
             avatar: req.file ? `uploads/${req.file.filename}` : null,
             token: crypto.randomUUID(),
             role: 'user',
@@ -109,6 +104,10 @@ usersRouter.post('/sessions', async (req, res, next) => {
         if (!user || !(await user.checkPassword(password))) {
             res.status(400).send({ error: 'Username or password incorrect' });
             return;
+        }
+
+        if (!user.displayName) {
+            user.displayName = user.username;
         }
 
         user.generateToken();

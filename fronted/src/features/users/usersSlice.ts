@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { User } from '../../types';
+import type { User, RegisterMutation } from '../../types';
 import axiosApi from '../../axiosApi';
 
 interface UsersState {
@@ -22,9 +22,17 @@ const initialState: UsersState = {
 
 export const register = createAsyncThunk(
     'users/register',
-    async (userData: { username: string; password: string }, { rejectWithValue }) => {
+    async (userData: RegisterMutation, { rejectWithValue }) => {
         try {
-            const response = await axiosApi.post<User>('/users', userData);
+            const formData = new FormData();
+            formData.append('username', userData.username);
+            formData.append('password', userData.password);
+            formData.append('displayName', userData.displayName);
+            if (userData.avatar) {
+                formData.append('avatar', userData.avatar);
+            }
+
+            const response = await axiosApi.post<User>('/users', formData);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || 'Registration failed');
@@ -40,6 +48,18 @@ export const login = createAsyncThunk(
             return response.data.user;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || 'Login failed');
+        }
+    }
+);
+
+export const googleLogin = createAsyncThunk(
+    'users/googleLogin',
+    async (credential: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosApi.post<{ message: string; user: User }>('/users/google', { credential });
+            return response.data.user;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.error || 'Google login failed');
         }
     }
 );
@@ -92,6 +112,18 @@ export const usersSlice = createSlice({
                 state.user = payload;
             })
             .addCase(login.rejected, (state, { payload }) => {
+                state.loginLoading = false;
+                state.loginError = payload as string;
+            })
+            .addCase(googleLogin.pending, (state) => {
+                state.loginLoading = true;
+                state.loginError = null;
+            })
+            .addCase(googleLogin.fulfilled, (state, { payload }) => {
+                state.loginLoading = false;
+                state.user = payload;
+            })
+            .addCase(googleLogin.rejected, (state, { payload }) => {
                 state.loginLoading = false;
                 state.loginError = payload as string;
             })
