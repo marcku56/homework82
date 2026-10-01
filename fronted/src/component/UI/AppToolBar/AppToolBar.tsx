@@ -14,6 +14,8 @@ const AppToolbar = () => {
         navigate('/login');
     };
 
+    // dfldl
+
     let avatarUrl = '';
     if (user?.avatar) {
         avatarUrl = user.avatar.startsWith('http') ? user.avatar : `${api}/${user.avatar}`;
